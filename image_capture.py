@@ -14,7 +14,7 @@ right_camera_pos = 85
 
 camera_indices = [1, 2, 3] # 0 is laptop's camera
 image_files = ["left.jpg", "center.jpg", "right.jpg"]
-person_detections = []
+person_detections = [[], [], []]
 
 # get list of indices of available cameras (laptop is 0)
 def list_available_cameras(max=5):
@@ -53,7 +53,7 @@ def detect_people():
         detections = results.xywh[0].cpu().numpy()
         person_detections[idx] = [d for d in detections if d[5] == 0]  # Class 0 is 'person'
 
-        for detection in person_detections:
+        for detection in person_detections[idx]:
             x_center, y_center, w, h = detection[:4]
             confidence = detection[4]
             print(f"Detected student at (x: {x_center}, y: {y_center}), w: {w}, h: {h}, confidence: {confidence}")
@@ -71,5 +71,5 @@ def detect_people():
 if __name__ == "__main__":
     # cameras = list_available_cameras(max=5)
     # print(f"Detected cameras: {cameras}")
-    capture_images()
+    # capture_images()
     detect_people()
